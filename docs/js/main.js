@@ -122,11 +122,7 @@ function updateGraphicAct1(step) {
   if (!g || !AppState.charts.areaAdoptionAct1) return;
   g.innerHTML = '';
   // Show progressive data: frozen at 2022 → ChatGPT moment → full chart
-  if (step === '1-1') {
-    AppState.charts.areaAdoptionAct1.render(g, 2022);
-  } else {
-    AppState.charts.areaAdoptionAct1.render(g, 2025);
-  }
+  AppState.charts.areaAdoptionAct1.render(g, 2025);
 }
 
 function updateGraphicAct2(step) {
