@@ -254,13 +254,10 @@ def build_streamgraph_langs():
     data = []
     for year, cfg in YEAR_CONFIG.items():
         pcts = load_proglang_pct(cfg["file"], cfg["proglang_sep"], langs=TOP8)
-        top8_sum = sum(v for v in pcts.values() if v is not None)
         for lang in TOP8:
             pct = pcts.get(lang)
             if pct is not None:
                 data.append({"year": year, "language": lang, "pct": pct})
-        others = round(max(0, 100 - top8_sum), 2)
-        data.append({"year": year, "language": "Others", "pct": others})
     with open(OUT / "streamgraph_langs.json", "w") as f:
         json.dump(data, f)
         f.write("\n")
