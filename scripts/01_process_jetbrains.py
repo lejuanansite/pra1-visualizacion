@@ -111,6 +111,7 @@ AI_TOOLS = {
         "Claude": "usage_ai_coding::Anthropic Claude web / desktop / mobile apps (not inside third-party tools)",
         "DeepSeek": "usage_ai_coding::DeepSeek apps or self-hosted / locally installed (not inside third-party tools)",
         "Windsurf": "usage_ai_coding::Windsurf",
+        "Gemini": "usage_ai_coding::Google Gemini web / mobile apps (not inside third-party tools)",
     },
 }
 
