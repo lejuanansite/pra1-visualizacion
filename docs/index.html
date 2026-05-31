@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>El Antes y el Después de la IA Generativa</title>
+  <link rel="stylesheet" href="css/main.css">
+</head>
+<body>
+
+  <!-- Barra de navegación -->
+  <nav id="nav-bar">
+    <div class="nav-title">Dev × IA 2020–2025</div>
+    <div class="nav-acts">
+      <button onclick="scrollToAct(1)">I. El Antes</button>
+      <button onclick="scrollToAct(2)">II. La Ruptura</button>
+      <button onclick="scrollToAct(3)">III. El Después</button>
+    </div>
+    <div id="progress-bar"></div>
+  </nav>
+
+  <!-- INTRO -->
+  <section id="intro" class="intro-section">
+    <h1>El Antes y el Después<br>de la IA Generativa</h1>
+    <p class="subtitle">Cómo ChatGPT transformó el ecosistema de desarrollo.<br>160.000 desarrolladores, 6 años de datos.</p>
+    <div class="scroll-hint">↓ scroll para explorar</div>
+  </section>
+
+  <!-- ACTO I -->
+  <section id="act-1" class="act-section">
+    <div class="act-label">Acto I — El mundo antes (2020–2022)</div>
+
+    <div class="scrolly-container" id="scrolly-1">
+      <div class="scrolly-text" id="text-1">
+        <div class="step" data-step="1-1">
+          <h2>2020: El ecosistema sin IA generativa</h2>
+          <p>En 2020, 23.589 desarrolladores de 194 países respondieron la encuesta de JetBrains. Python lideraba, JavaScript crecía. Nadie preguntaba por "herramientas de IA generativa" porque no existían masivamente.</p>
+        </div>
+        <div class="step" data-step="1-2">
+          <h2>El lenguaje importa</h2>
+          <p>Python ya dominaba en ciencia de datos y machine learning clásico. Pero el "machine learning" de 2020–2022 era académico: TensorFlow, PyTorch, modelos propios. No había ChatGPT.</p>
+        </div>
+        <div class="step" data-step="1-3">
+          <h2>El perfil del desarrollador</h2>
+          <p>Un ecosistema diverso en roles pero homogéneo en demografía: ~92% hombres, Europa y Norteamérica dominantes, mayoría con 5+ años de experiencia.</p>
+        </div>
+      </div>
+      <div class="scrolly-graphic sticky-graphic" id="graphic-1">
+        <!-- D3 renders here -->
+      </div>
+    </div>
+  </section>
+
+  <!-- ACTO II -->
+  <section id="act-2" class="act-section act-2">
+    <div class="act-label">Acto II — La ruptura (nov 2022 → 2024)</div>
+
+    <div class="scrolly-container" id="scrolly-2">
+      <div class="scrolly-text" id="text-2">
+        <div class="step" data-step="2-1">
+          <h2>Noviembre de 2022</h2>
+          <p>OpenAI lanzó ChatGPT. En las semanas siguientes, millones de desarrolladores lo probaron. Era el primer modelo de lenguaje accesible sin fricción técnica.</p>
+        </div>
+        <div class="step" data-step="2-2">
+          <h2>La explosión de modelos</h2>
+          <p>Entre 2022 y 2024, el número de modelos LLM disponibles públicamente pasó de decenas a cientos. Cada punto es un modelo: su tamaño indica sus parámetros, su color si es open-source o comercial.</p>
+        </div>
+        <div class="step" data-step="2-3">
+          <h2>¿Qué adoptaron los desarrolladores?</h2>
+          <p>En 2023, el 28% de los devs ya usaba alguna herramienta de IA generativa para código. En 2024, supera el 68%. El salto fue vertical.</p>
+        </div>
+        <div class="step" data-step="2-4">
+          <h2>¿Importa la calidad técnica del modelo?</h2>
+          <p>Los modelos mejor valorados en benchmarks (MMLU) no siempre son los más adoptados. ChatGPT/GPT-4o lidera la adopción. DeepSeek tiene el MMLU más alto pero menor adopción. ¿Es la accesibilidad lo que decide?</p>
+        </div>
+      </div>
+      <div class="scrolly-graphic sticky-graphic" id="graphic-2">
+        <!-- D3 renders here -->
+      </div>
+    </div>
+  </section>
+
+  <!-- ACTO III -->
+  <section id="act-3" class="act-section act-3">
+    <div class="act-label">Acto III — El nuevo ecosistema (2024–2025)</div>
+
+    <div class="scrolly-container" id="scrolly-3">
+      <div class="scrolly-text" id="text-3">
+        <div class="step" data-step="3-1">
+          <h2>La adopción no es igual en todo el mundo</h2>
+          <p>En EEUU y Europa Occidental, más del 60% de los devs usan IA. El acceso a herramientas de pago y la disponibilidad de modelos varía enormemente según la región.</p>
+        </div>
+        <div class="step" data-step="3-2">
+          <h2>¿Democratiza la IA o amplifica las brechas?</h2>
+          <p>Las mujeres usan herramientas de IA en proporciones similares a los hombres, pero están menos representadas en roles de AI Engineering. En 2022-2023, el 36% de las desarrolladoras estaban en la categoría "low-paid" frente al 18% de los hombres.</p>
+        </div>
+        <div class="step" data-step="3-3">
+          <h2>¿Python se lo come todo?</h2>
+          <p>La irrupción de la IA ha reforzado la posición de Python. ¿Está homogeneizando el stack tecnológico o los demás lenguajes mantienen su terreno?</p>
+        </div>
+        <div class="step" data-step="3-4">
+          <h2>¿Cómo se siente el desarrollador?</h2>
+          <p>Los devs con más experiencia son más "esperanzados" ante la IA. Los junior son más "ansiosos". Solo el 15% cree que la IA reemplazará completamente a los desarrolladores.</p>
+        </div>
+      </div>
+      <div class="scrolly-graphic sticky-graphic" id="graphic-3">
+        <!-- D3 renders here -->
+      </div>
+    </div>
+
+    <!-- Zona de exploración libre -->
+    <div id="explorer-section">
+      <h2>Explora los datos</h2>
+      <p class="subtitle">Construye tu propia vista combinando métrica, segmento y año.</p>
+      <div id="explorer-controls">
+        <label>Métrica:
+          <select id="explorer-metric">
+            <option value="tool_adoption">Adopción de herramienta IA</option>
+            <option value="emotion">Emoción ante la IA</option>
+            <option value="language">Lenguaje de programación</option>
+          </select>
+        </label>
+        <label>Segmento:
+          <select id="explorer-segment">
+            <option value="gender">Género</option>
+            <option value="experience">Experiencia</option>
+          </select>
+        </label>
+        <label>Año:
+          <select id="explorer-year">
+            <option value="2025">2025</option>
+            <option value="2024">2024</option>
+            <option value="2023">2023</option>
+          </select>
+        </label>
+      </div>
+      <div id="explorer-chart"></div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <p>Datos: JetBrains Developer Ecosystem Survey 2020–2025 (~160.000 respuestas) · LifeArchitect.ai Models Table (855 modelos LLM)</p>
+    <p>Nota metodológica: encuesta de autoselección distribuida por canales JetBrains. Sesgo hacia usuarios de sus herramientas. Muestra ~92% masculina.</p>
+    <p>Juanan · Visualización de Datos · Máster en Ciencia de Datos UOC · 2026 · <a href="https://github.com/juanan/pra2-visualizacion">Código fuente</a></p>
+  </footer>
+
+  <!-- Scripts — order matters -->
+  <script src="https://d3js.org/d3.v7.min.js"></script>
+  <script src="https://unpkg.com/topojson-client@3"></script>
+  <script src="https://unpkg.com/scrollama@3"></script>
+  <script src="js/charts/bump-chart.js"></script>
+  <script src="js/charts/small-multiples.js"></script>
+  <script src="js/charts/llm-timeline.js"></script>
+  <script src="js/charts/area-adoption.js"></script>
+  <script src="js/charts/scatter-capability.js"></script>
+  <script src="js/charts/choropleth.js"></script>
+  <script src="js/charts/bar-gender.js"></script>
+  <script src="js/charts/streamgraph.js"></script>
+  <script src="js/charts/diverging-bars.js"></script>
+  <script src="js/charts/explorer.js"></script>
+  <script src="js/main.js"></script>
+</body>
+</html>
