@@ -3,7 +3,6 @@
 function initAreaAdoption(selector, data) {
   const MILESTONES = [
     { year: 2022.92, label: "ChatGPT" },
-    { year: 2023.25, label: "GPT-4" },
     { year: 2024.25, label: "Claude 3" },
   ];
 
@@ -25,7 +24,7 @@ function initAreaAdoption(selector, data) {
 
     // Always keep x domain fixed 2020-2025 for visual consistency
     const xScale = d3.scaleLinear().domain([2020, 2025]).range([0, W]);
-    const yScale = d3.scaleLinear().domain([0, 100]).range([H, 0]);
+    const yScale = d3.scaleLinear().domain([0, 80]).range([H, 0]);
 
     const areaGen = d3.area()
       .defined(d => d.any_ai_pct != null)
@@ -84,14 +83,25 @@ function initAreaAdoption(selector, data) {
       })
       .on('mouseout', () => { tip.style.opacity = '0'; });
 
-    // Milestone annotations
-    MILESTONES.forEach(m => {
+    // Milestone annotations — only show if within visible range
+    const maxVisibleYear = upToYear || 2025;
+    MILESTONES.filter(m => m.year <= maxVisibleYear).forEach(m => {
       g.append('line')
         .attr('x1', xScale(m.year)).attr('x2', xScale(m.year))
         .attr('y1', 0).attr('y2', H)
         .attr('stroke', '#ff6b9d').attr('stroke-dasharray', '3,3').attr('opacity', 0.6);
       g.append('text').attr('x', xScale(m.year) + 3).attr('y', 14)
         .attr('fill', '#ff6b9d').attr('font-size', '10px').text(m.label);
+    });
+
+    // Value labels on data points
+    visibleData.filter(d => d.any_ai_pct != null).forEach(d => {
+      g.append('text')
+        .attr('x', xScale(d.year))
+        .attr('y', yScale(d.any_ai_pct) - 10)
+        .attr('text-anchor', 'middle')
+        .attr('fill', '#ff6b9d').attr('font-size', '11px').attr('font-weight', '600')
+        .text(d.any_ai_pct + '%');
     });
   }
 

@@ -124,8 +124,6 @@ function updateGraphicAct1(step) {
   // Show progressive data: frozen at 2022 → ChatGPT moment → full chart
   if (step === '1-1') {
     AppState.charts.areaAdoptionAct1.render(g, 2022);
-  } else if (step === '1-2') {
-    AppState.charts.areaAdoptionAct1.render(g, 2023);
   } else {
     AppState.charts.areaAdoptionAct1.render(g, 2025);
   }
