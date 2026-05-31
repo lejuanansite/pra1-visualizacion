@@ -34,23 +34,16 @@ def build_llm_timeline():
     df = load_lifearchitect()
     ann_col = "Announced\n▼"  # exact column name including newline
 
-    OPEN_SOURCE_LABS = {
-        "Meta AI", "Mistral", "DeepSeek-AI", "EleutherAI",
-        "Stability AI", "01.AI", "Cohere", "xAI", "TII", "Falcon",
-        "Allen Institute for AI", "BigScience", "BLOOM", "Cerebras",
-    }
-
     records = []
     for _, row in df.iterrows():
         year, month = parse_year_month(str(row.get(ann_col, "")))
         if year is None or year < 2017 or year > 2026:
             continue
-        # Parse params — remove commas, convert to float
-        params_raw = str(row.get("Params\n(total, B)", "")).replace(",", "")
-        params = pd.to_numeric(params_raw, errors="coerce")
+        params = pd.to_numeric(str(row.get("Params\n(total, B)", "")), errors="coerce")
         mmlu = pd.to_numeric(row.get("MMLU"), errors="coerce")
         lab = str(row.get("Lab", ""))
-        open_source = lab in OPEN_SOURCE_LABS
+        # Public? column: 🟢 = publicly available weights (more reliable than lab allowlist)
+        open_source = str(row.get("Public?", "")) == "🟢"
         records.append({
             "model": str(row.get("Model", "")),
             "lab": lab,
