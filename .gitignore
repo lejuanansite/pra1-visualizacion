@@ -3,3 +3,26 @@ __pycache__/
 *.pyc
 .DS_Store
 .superpowers/
+
+# Python
+*.pyo
+.venv/
+venv/
+.env
+*.egg-info/
+dist/
+build/
+.pytest_cache/
+*.ipynb_checkpoints/
+
+# JavaScript / Node
+node_modules/
+.cache/
+
+# Editor
+.vscode/
+.idea/
+
+# Logs
+*.log
+*.tmp
