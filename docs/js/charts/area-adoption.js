@@ -13,14 +13,17 @@ function initAreaAdoption(selector, data) {
     return tip;
   }
 
-  function render(container) {
+  function render(container, upToYear) {
     const width = container.clientWidth || 650;
     const height = 400;
     const margin = { top: 40, right: 30, bottom: 50, left: 65 };
     const W = width - margin.left - margin.right;
     const H = height - margin.top - margin.bottom;
 
-    // any_ai_pct is null for 2020-2022
+    // Filter data up to upToYear if specified
+    const visibleData = upToYear ? data.filter(d => d.year <= upToYear) : data;
+
+    // Always keep x domain fixed 2020-2025 for visual consistency
     const xScale = d3.scaleLinear().domain([2020, 2025]).range([0, W]);
     const yScale = d3.scaleLinear().domain([0, 100]).range([H, 0]);
 
@@ -57,16 +60,16 @@ function initAreaAdoption(selector, data) {
       .attr('text-anchor', 'middle').attr('fill', '#555').attr('font-size', '10px')
       .text('sin datos (no se preguntó)');
 
-    g.append('path').datum(data)
+    g.append('path').datum(visibleData)
       .attr('fill', '#ff6b9d').attr('opacity', 0.18).attr('d', areaGen);
 
-    g.append('path').datum(data)
+    g.append('path').datum(visibleData)
       .attr('fill', 'none').attr('stroke', '#ff6b9d').attr('stroke-width', 2.5)
       .attr('d', lineGen);
 
     // Data points
     g.selectAll('circle')
-      .data(data.filter(d => d.any_ai_pct != null))
+      .data(visibleData.filter(d => d.any_ai_pct != null))
       .join('circle')
       .attr('cx', d => xScale(d.year)).attr('cy', d => yScale(d.any_ai_pct))
       .attr('r', 5).attr('fill', '#ff6b9d')

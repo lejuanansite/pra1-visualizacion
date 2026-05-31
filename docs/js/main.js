@@ -62,8 +62,7 @@ async function initScrollytelling() {
     }
   }
 
-  tryInit('bumpChart',       () => initBumpChart('#graphic-1', langData));
-  tryInit('smallMultiples',  () => initSmallMultiples('#graphic-1', profileData));
+  tryInit('areaAdoptionAct1',() => initAreaAdoption('#graphic-1', adoptionData));
   tryInit('llmTimeline',     () => initLLMTimeline('#graphic-2', llmData));
   tryInit('areaAdoption',    () => initAreaAdoption('#graphic-2', adoptionData));
   tryInit('scatterCapability',() => initScatterCapability('#graphic-2', capabilityData));
@@ -120,12 +119,15 @@ async function initScrollytelling() {
 
 function updateGraphicAct1(step) {
   const g = document.getElementById('graphic-1');
-  if (!g) return;
+  if (!g || !AppState.charts.areaAdoptionAct1) return;
   g.innerHTML = '';
-  if ((step === '1-1' || step === '1-2') && AppState.charts.bumpChart) {
-    AppState.charts.bumpChart.render(g);
-  } else if (step === '1-3' && AppState.charts.smallMultiples) {
-    AppState.charts.smallMultiples.render(g);
+  // Show progressive data: frozen at 2022 → ChatGPT moment → full chart
+  if (step === '1-1') {
+    AppState.charts.areaAdoptionAct1.render(g, 2022);
+  } else if (step === '1-2') {
+    AppState.charts.areaAdoptionAct1.render(g, 2023);
+  } else {
+    AppState.charts.areaAdoptionAct1.render(g, 2025);
   }
 }
 
@@ -133,8 +135,8 @@ function updateGraphicAct2(step) {
   const g = document.getElementById('graphic-2');
   if (!g) return;
   g.innerHTML = '';
-  if (step === '2-1' && AppState.charts.areaAdoption) {
-    AppState.charts.areaAdoption.render(g);
+  if (step === '2-1' && AppState.charts.llmTimeline) {
+    AppState.charts.llmTimeline.render(g);
   } else if (step === '2-2' && AppState.charts.llmTimeline) {
     AppState.charts.llmTimeline.render(g);
   } else if (step === '2-3' && AppState.charts.areaAdoption) {
