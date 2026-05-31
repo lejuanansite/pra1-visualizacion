@@ -120,11 +120,13 @@ def build_adoption_by_year():
     data = []
     for year in [2020, 2021, 2022, 2023, 2024, 2025]:
         if year not in AI_TOOLS:
-            data.append({"year": year, "any_ai_pct": 0, "tools": {}})
+            # No generative AI question in this edition — null, not 0 (absence of data ≠ zero adoption)
+            data.append({"year": year, "any_ai_pct": None, "tools": {}})
             continue
         cfg = YEAR_CONFIG[year]
-        tool_cols = list(AI_TOOLS[year].values())
-        # Load only the relevant columns
+        # Guard: only load columns that actually exist in this CSV
+        all_cols = pd.read_csv(cfg["file"], nrows=0).columns.tolist()
+        tool_cols = [c for c in AI_TOOLS[year].values() if c in all_cols]
         df = pd.read_csv(cfg["file"], usecols=tool_cols, low_memory=False)
         # any_ai_pct: rows where at least one AI column is non-null
         any_ai = df.notna().any(axis=1).mean() * 100
@@ -180,28 +182,6 @@ def build_gender_adoption():
         pct = round(gdf["activities_kinds::AI engineering"].notna().mean() * 100, 2)
         data.append({"dimension": "ai_engineering_role", "gender": gender, "pct": pct, "n": n})
 
-    # 4. salary_group — 2022 and 2023, Male and Female only
-    for year in [2022, 2023]:
-        cfg = YEAR_CONFIG[year]
-        df_sal = pd.read_csv(cfg["file"], usecols=["gender", "salary_group"], low_memory=False)
-        df_sal = df_sal[df_sal["gender"].isin(["Male", "Female"])]
-        for gender in ["Male", "Female"]:
-            gdf = df_sal[df_sal["gender"] == gender]
-            n = len(gdf)
-            if n < 30:
-                continue
-            total = len(gdf)
-            for salary_level, cnt in gdf["salary_group"].value_counts().items():
-                pct = round(cnt / total * 100, 2)
-                data.append({
-                    "dimension": "salary_group",
-                    "year": year,
-                    "gender": gender,
-                    "salary_level": salary_level,
-                    "pct": pct,
-                    "n": n,
-                })
-
     with open(OUT / "gender_adoption.json", "w") as f:
         json.dump(data, f)
         f.write("\n")
@@ -226,6 +206,36 @@ def build_sentiment_by_experience():
         json.dump(data, f)
         f.write("\n")
     print(f"sentiment_by_experience.json: {len(data)} records")
+
+
+def build_salary_by_gender():
+    """Build salary group distribution by gender (2022-2023) → appended to gender_adoption.json context."""
+    data = []
+    for year in [2022, 2023]:
+        cfg = YEAR_CONFIG[year]
+        df_sal = pd.read_csv(cfg["file"], usecols=["gender", "salary_group"], low_memory=False)
+        for gender in ["Male", "Female"]:
+            gdf = df_sal[df_sal["gender"] == gender]
+            n = len(gdf)
+            if n < 30:
+                continue
+            for salary_level, cnt in gdf["salary_group"].value_counts().items():
+                pct = round(cnt / n * 100, 2)
+                data.append({
+                    "dimension": "salary_group",
+                    "year": year,
+                    "gender": gender,
+                    "salary_level": salary_level,
+                    "pct": pct,
+                    "n": n,
+                })
+    # Append to gender_adoption.json
+    existing = json.load(open(OUT / "gender_adoption.json"))
+    existing.extend(data)
+    with open(OUT / "gender_adoption.json", "w") as f:
+        json.dump(existing, f)
+        f.write("\n")
+    print(f"salary_by_gender: {len(data)} records appended to gender_adoption.json")
 
 
 def build_adoption_by_country():
@@ -268,6 +278,7 @@ build_languages_ranking()
 build_dev_profile()
 build_adoption_by_year()
 build_gender_adoption()
+build_salary_by_gender()
 build_sentiment_by_experience()
 build_adoption_by_country()
 build_streamgraph_langs()
