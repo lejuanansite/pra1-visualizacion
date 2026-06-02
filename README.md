@@ -49,13 +49,18 @@ No requiere instalar dependencias en el navegador: D3.js v7, Scrollama v3 y Topo
 
 ## Reproducir el procesado de datos
 
+Requiere [uv](https://docs.astral.sh/uv/) (`curl -LsSf https://astral.sh/uv/install.sh | sh`). La única dependencia externa es `pandas` (el resto es librería estándar), fijada en [`requirements.txt`](requirements.txt).
+
 ```bash
-pip install pandas
-python scripts/01_process_jetbrains.py        # lenguajes, perfil, métricas base JetBrains
-python scripts/02_process_lifearchitect.py    # tabla de modelos LLM (timeline + MMLU)
-python scripts/03_capability_join.py          # cruce capacidad técnica × adopción
-python scripts/04_tools_and_fear.py           # cuotas de herramienta, OSS, beneficios, tiempo, miedo
-python scripts/05_process_stackoverflow.py    # adopción real, sentimiento, agentes, salario, mapa por país
+uv venv                          # crea el entorno en .venv
+uv pip install -r requirements.txt
+
+# pipeline completo (ejecutar en orden; cada script escribe sus JSON en docs/data/)
+uv run scripts/01_process_jetbrains.py        # lenguajes, perfil, métricas base JetBrains
+uv run scripts/02_process_lifearchitect.py    # tabla de modelos LLM (timeline + MMLU)
+uv run scripts/03_capability_join.py          # cruce capacidad técnica × adopción
+uv run scripts/04_tools_and_fear.py           # cuotas de herramienta, OSS, beneficios, tiempo, miedo
+uv run scripts/05_process_stackoverflow.py    # adopción real, sentimiento, agentes, salario, mapa por país
 ```
 
 Los CSV originales (`data/raw/`) no se incluyen en el repositorio por tamaño (~1,5 GB). Se descargan desde las URLs de las fuentes indicadas arriba; los de Stack Overflow vía Git LFS del repositorio oficial.
