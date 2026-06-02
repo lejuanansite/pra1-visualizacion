@@ -6,7 +6,7 @@ Práctica Final (Parte 2) — Visualización de Datos · Máster en Ciencia de D
 
 ## Ver en línea
 
-> _URL de GitHub Pages (disponible tras el despliegue)_
+**https://lejuanansite.github.io/pra1-visualizacion/**
 
 ## Estructura narrativa
 
