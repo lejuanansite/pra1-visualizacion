@@ -27,15 +27,19 @@ function initLLMTimeline(selector, data) {
   function render(container) {
     const width = container.clientWidth || 650;
     const height = 460;
-    const margin = { top: 40, right: 30, bottom: 50, left: 60 };
+    // mas margen arriba para las etiquetas de hitos escalonadas
+    const margin = { top: 64, right: 30, bottom: 50, left: 60 };
     const W = width - margin.left - margin.right;
     const H = height - margin.top - margin.bottom;
 
-    // Only plot models with MMLU and valid dates
-    const validData = data.filter(d => d.mmlu != null && d.year >= 2017 && d.year <= 2026);
+    // Only plot models with MMLU and valid dates.
+    // Casi no hay modelos con MMLU antes de 2019, asi que arrancamos el eje
+    // en 2019 para dar aire a la zona densa (2024-2025) y no dejar medio
+    // grafico vacio.
+    const validData = data.filter(d => d.mmlu != null && d.year >= 2019 && d.year <= 2026);
 
     const xScale = d3.scaleTime()
-      .domain([new Date(2017, 0, 1), new Date(2026, 6, 1)])
+      .domain([new Date(2019, 0, 1), new Date(2026, 6, 1)])
       .range([0, W]);
 
     const yScale = d3.scaleLinear()
@@ -43,7 +47,7 @@ function initLLMTimeline(selector, data) {
 
     const maxParams = d3.max(validData, d => d.params_b) || 1000;
     const radiusScale = d3.scaleSqrt()
-      .domain([0, maxParams]).range([2, 20]);
+      .domain([0, maxParams]).range([2, 16]);
 
     const colorScale = d3.scaleOrdinal()
       .domain([true, false])
@@ -73,15 +77,19 @@ function initLLMTimeline(selector, data) {
       .attr('transform', 'rotate(-90)').attr('text-anchor', 'middle')
       .attr('fill', '#8888aa').attr('font-size', '11px').text('MMLU score');
 
-    // Milestone lines
-    MILESTONES.forEach(m => {
+    // Milestone lines — etiquetas escalonadas en dos alturas por encima del
+    // area de ploteo para que no se solapen entre si ni con las burbujas.
+    MILESTONES.forEach((m, i) => {
       const x = xScale(new Date(m.year, m.month - 1, 1));
+      const labelY = -38 + (i % 2) * 16; // alterna dos alturas
       g.append('line')
-        .attr('x1', x).attr('x2', x).attr('y1', 0).attr('y2', H)
+        .attr('x1', x).attr('x2', x).attr('y1', labelY + 4).attr('y2', H)
         .attr('stroke', '#ff6b9d').attr('stroke-dasharray', '3,3')
-        .attr('stroke-width', 1).attr('opacity', 0.7);
-      g.append('text').attr('x', x + 3).attr('y', 12)
-        .attr('fill', '#ff6b9d').attr('font-size', '10px').text(m.label);
+        .attr('stroke-width', 1).attr('opacity', 0.55);
+      g.append('text').attr('x', x).attr('y', labelY)
+        .attr('text-anchor', 'middle')
+        .attr('fill', '#ff6b9d').attr('font-size', '10px').attr('font-weight', '600')
+        .text(m.label);
     });
 
     // Bubbles
@@ -92,7 +100,10 @@ function initLLMTimeline(selector, data) {
       .attr('cy', d => yScale(d.mmlu))
       .attr('r', d => d.params_b != null ? radiusScale(d.params_b) : 3)
       .attr('fill', d => colorScale(d.open_source))
-      .attr('opacity', 0.55)
+      .attr('opacity', 0.4)
+      .attr('stroke', d => colorScale(d.open_source))
+      .attr('stroke-width', 0.6)
+      .attr('stroke-opacity', 0.8)
       .attr('tabindex', 0)
       .attr('aria-label', d => `${d.model} (${d.lab}), MMLU ${d.mmlu}`)
       .on('mouseover', (event, d) => {
@@ -105,8 +116,8 @@ function initLLMTimeline(selector, data) {
       })
       .on('mouseout', () => { tip.style.opacity = '0'; });
 
-    // Legend
-    const leg = g.append('g').attr('transform', `translate(${W - 120}, 10)`);
+    // Legend — abajo a la izquierda, donde apenas hay burbujas (2019-2021)
+    const leg = g.append('g').attr('transform', `translate(10, ${H - 44})`);
     [{v: false, l: 'Comercial'}, {v: true, l: 'Open-source'}].forEach((d, i) => {
       leg.append('circle').attr('cx', 6).attr('cy', i * 20).attr('r', 6)
         .attr('fill', colorScale(d.v)).attr('opacity', 0.7);

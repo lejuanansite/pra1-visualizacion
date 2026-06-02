@@ -3,8 +3,7 @@
 window.AppState = {
   currentAct: 1,
   currentStep: null,
-  explorerMetric: 'tool_adoption',
-  explorerSegment: 'gender',
+  explorerMetric: 'language',
   explorerYear: 2025,
   charts: {},
 };
@@ -31,22 +30,29 @@ window.scrollToAct = function(n) {
 };
 
 async function initScrollytelling() {
-  let langData, profileData, expData, llmData, adoptionData,
-      capabilityData, countryData, genderData, streamData, sentimentData;
+  let langData, llmData, capabilityData, streamData,
+      toolSlopeData, fearData, ossData, benefitsData, timeSavingData,
+      soAdoptionData, paradoxData, frustrationData, agentsData, salaryData, mapData;
 
   try {
-    [langData, profileData, expData, llmData, adoptionData,
-     capabilityData, countryData, genderData, streamData, sentimentData] = await Promise.all([
+    [langData, llmData, capabilityData, streamData,
+     toolSlopeData, fearData, ossData, benefitsData, timeSavingData,
+     soAdoptionData, paradoxData, frustrationData, agentsData, salaryData, mapData] = await Promise.all([
       loadJSON('data/languages_ranking.json'),
-      loadJSON('data/job_roles.json'),
-      loadJSON('data/experience.json'),
       loadJSON('data/llm_timeline.json'),
-      loadJSON('data/adoption_by_year.json'),
       loadJSON('data/capability_vs_adoption.json'),
-      loadJSON('data/adoption_by_country.json'),
-      loadJSON('data/gender_adoption.json'),
       loadJSON('data/streamgraph_langs.json'),
-      loadJSON('data/sentiment_by_experience.json'),
+      loadJSON('data/tool_share_by_year.json'),
+      loadJSON('data/fear_by_experience.json'),
+      loadJSON('data/oss_vs_commercial.json'),
+      loadJSON('data/ai_benefits.json'),
+      loadJSON('data/time_saving_evolution.json'),
+      loadJSON('data/so_ai_adoption.json'),
+      loadJSON('data/so_adoption_vs_sentiment.json'),
+      loadJSON('data/so_frustration.json'),
+      loadJSON('data/so_agents.json'),
+      loadJSON('data/so_salary_simpson.json'),
+      loadJSON('data/so_adoption_map.json'),
     ]);
   } catch (e) {
     console.error('Error loading data:', e);
@@ -62,14 +68,23 @@ async function initScrollytelling() {
     }
   }
 
-  tryInit('areaAdoptionAct1',() => initAreaAdoption('#graphic-1', adoptionData));
+  // Acto I
+  tryInit('soAdoption',      () => initSoAdoption('#graphic-1', soAdoptionData));
+  tryInit('adoptionMap',     () => initAdoptionMap('#graphic-1', mapData));
+  // Acto II
   tryInit('llmTimeline',     () => initLLMTimeline('#graphic-2', llmData));
-  tryInit('areaAdoption',    () => initAreaAdoption('#graphic-2', adoptionData));
+  tryInit('toolSlope',       () => initToolSlope('#graphic-2', toolSlopeData));
   tryInit('scatterCapability',() => initScatterCapability('#graphic-2', capabilityData));
-  tryInit('choropleth',      () => initChoropleth('#graphic-3', countryData));
-  tryInit('barGender',       () => initBarGender('#graphic-3', genderData));
+  tryInit('ossCommercial',   () => initOssCommercial('#graphic-2', ossData));
+  // Acto III
+  tryInit('aiAgents',        () => initAiAgents('#graphic-3', agentsData));
   tryInit('streamgraph',     () => initStreamgraph('#graphic-3', streamData));
-  tryInit('divergingBars',   () => initDivergingBars('#graphic-3', sentimentData));
+  tryInit('aiBenefits',      () => initAiBenefits('#graphic-3', benefitsData));
+  tryInit('timeSaving',      () => initTimeSaving('#graphic-3', timeSavingData));
+  tryInit('salarySimpson',   () => initSalarySimpson('#graphic-3', salaryData));
+  tryInit('fearExperience',  () => initFearExperience('#graphic-3', fearData));
+  tryInit('aiFrustration',   () => initAiFrustration('#graphic-3', frustrationData));
+  tryInit('adoptionParadox', () => initAdoptionParadox('#graphic-3', paradoxData));
 
   // Scrollama — Acto I
   const scrolly1 = scrollama();
@@ -95,8 +110,8 @@ async function initScrollytelling() {
       updateGraphicAct3(element.dataset.step);
     });
 
-  // Explorer init
-  const explorerAllData = { langData, genderData, adoptionData };
+  // Explorer init — solo métricas honestas y comparables
+  const explorerAllData = { langData, toolSlopeData, timeSavingData };
   try {
     initExplorer('#explorer-chart', explorerAllData);
   } catch(e) {
@@ -107,10 +122,6 @@ async function initScrollytelling() {
     AppState.explorerMetric = e.target.value;
     try { updateExplorer(); } catch(e) { /* not ready yet */ }
   });
-  document.getElementById('explorer-segment').addEventListener('change', e => {
-    AppState.explorerSegment = e.target.value;
-    try { updateExplorer(); } catch(e) { /* not ready yet */ }
-  });
   document.getElementById('explorer-year').addEventListener('change', e => {
     AppState.explorerYear = parseInt(e.target.value);
     try { updateExplorer(); } catch(e) { /* not ready yet */ }
@@ -119,10 +130,15 @@ async function initScrollytelling() {
 
 function updateGraphicAct1(step) {
   const g = document.getElementById('graphic-1');
-  if (!g || !AppState.charts.areaAdoptionAct1) return;
+  if (!g) return;
   g.innerHTML = '';
-  // Show progressive data: frozen at 2022 → ChatGPT moment → full chart
-  AppState.charts.areaAdoptionAct1.render(g, 2025);
+  if (step === '1-2' && AppState.charts.adoptionMap) {
+    // mapa: adopcion REAL de IA por pais (Sur Global > Norte rico)
+    AppState.charts.adoptionMap.render(g);
+  } else if (AppState.charts.soAdoption) {
+    // curva real de adopcion 2023->2025 (Stack Overflow, AISelect)
+    AppState.charts.soAdoption.render(g, 2025);
+  }
 }
 
 function updateGraphicAct2(step) {
@@ -131,12 +147,12 @@ function updateGraphicAct2(step) {
   g.innerHTML = '';
   if (step === '2-1' && AppState.charts.llmTimeline) {
     AppState.charts.llmTimeline.render(g);
-  } else if (step === '2-2' && AppState.charts.llmTimeline) {
-    AppState.charts.llmTimeline.render(g);
-  } else if (step === '2-3' && AppState.charts.areaAdoption) {
-    AppState.charts.areaAdoption.render(g);
-  } else if (step === '2-4' && AppState.charts.scatterCapability) {
+  } else if (step === '2-2' && AppState.charts.toolSlope) {
+    AppState.charts.toolSlope.render(g);
+  } else if (step === '2-3' && AppState.charts.scatterCapability) {
     AppState.charts.scatterCapability.render(g);
+  } else if (step === '2-4' && AppState.charts.ossCommercial) {
+    AppState.charts.ossCommercial.render(g);
   }
 }
 
@@ -144,14 +160,22 @@ function updateGraphicAct3(step) {
   const g = document.getElementById('graphic-3');
   if (!g) return;
   g.innerHTML = '';
-  if (step === '3-1' && AppState.charts.choropleth) {
-    AppState.charts.choropleth.render(g);
-  } else if (step === '3-2' && AppState.charts.barGender) {
-    AppState.charts.barGender.render(g);
-  } else if (step === '3-3' && AppState.charts.streamgraph) {
+  if (step === '3-1' && AppState.charts.aiAgents) {
+    AppState.charts.aiAgents.render(g);
+  } else if (step === '3-2' && AppState.charts.streamgraph) {
     AppState.charts.streamgraph.render(g);
-  } else if (step === '3-4' && AppState.charts.divergingBars) {
-    AppState.charts.divergingBars.render(g);
+  } else if (step === '3-3' && AppState.charts.aiBenefits) {
+    AppState.charts.aiBenefits.render(g);
+  } else if (step === '3-4' && AppState.charts.timeSaving) {
+    AppState.charts.timeSaving.render(g);
+  } else if (step === '3-5' && AppState.charts.salarySimpson) {
+    AppState.charts.salarySimpson.render(g);
+  } else if (step === '3-6' && AppState.charts.fearExperience) {
+    AppState.charts.fearExperience.render(g);
+  } else if (step === '3-7' && AppState.charts.aiFrustration) {
+    AppState.charts.aiFrustration.render(g);
+  } else if (step === '3-8' && AppState.charts.adoptionParadox) {
+    AppState.charts.adoptionParadox.render(g);
   }
 }
 

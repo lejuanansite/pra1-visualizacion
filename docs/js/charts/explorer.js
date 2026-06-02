@@ -1,4 +1,10 @@
 // docs/js/charts/explorer.js
+// Zona de exploración libre. Solo ofrece métricas HONESTAS y comparables:
+//  - Popularidad de lenguajes por año (JetBrains, 2020-2025)
+//  - Cuota de cada herramienta IA entre usuarios de IA por año (2024-2025)
+//  - Distribución del tiempo ahorrado con IA por año (2024-2025)
+// Se evita deliberadamente la "adopción por herramienta/género", que con
+// estos datos no es medible como % poblacional (pregunta condicional).
 
 let _explorerContainer = null;
 let _explorerData = null;
@@ -14,49 +20,31 @@ function updateExplorer() {
   _explorerContainer.innerHTML = '';
 
   const metric = AppState.explorerMetric;
-  const segment = AppState.explorerSegment;
   const year = AppState.explorerYear;
-
   let chartData = [];
+  let note = '';
 
-  if (metric === 'tool_adoption' && segment === 'gender') {
-    // Tool adoption by gender (from genderData, dimension=tool_adoption)
-    const rows = _explorerData.genderData.filter(d => d.dimension === 'tool_adoption');
-    const tools = [...new Set(rows.map(d => d.tool))];
-    tools.forEach(tool => {
-      ['Male', 'Female'].forEach(gender => {
-        const r = rows.find(d => d.tool === tool && d.gender === gender);
-        if (r) chartData.push({ label: `${tool} (${gender === 'Male' ? 'H' : 'M'})`, value: r.pct, group: gender });
-      });
-    });
-  } else if (metric === 'emotion' && segment === 'gender') {
-    // Emotion distribution by gender (from genderData, dimension=emotion)
-    const rows = _explorerData.genderData.filter(d => d.dimension === 'emotion');
-    const emotions = ['Hopeful', 'Excited', 'Uncertain', 'Anxious', 'Fearful'];
-    emotions.forEach(emotion => {
-      ['Male', 'Female'].forEach(gender => {
-        const r = rows.find(d => d.emotion === emotion && d.gender === gender);
-        if (r) chartData.push({ label: `${emotion} (${gender === 'Male' ? 'H' : 'M'})`, value: r.pct, group: gender });
-      });
-    });
-  } else if (metric === 'language') {
-    // Language usage for selected year
-    chartData = _explorerData.langData
-      .filter(d => d.year === year)
-      .map(d => ({ label: d.language, value: d.pct, group: 'lang' }))
-      .sort((a, b) => b.value - a.value)
-      .slice(0, 10);
-  } else if (metric === 'tool_adoption' && segment === 'experience') {
-    // For experience segment: show adoption by year using adoptionData
-    const yearRow = _explorerData.adoptionData.find(d => d.year === year);
-    if (yearRow && yearRow.tools) {
-      chartData = Object.entries(yearRow.tools)
-        .map(([tool, pct]) => ({ label: tool, value: pct, group: 'tool' }))
-        .sort((a, b) => b.value - a.value);
+  if (metric === 'tool_share') {
+    // cuota de herramienta entre usuarios de IA (toolSlopeData: year, tool, share)
+    const rows = (_explorerData.toolSlopeData || []).filter(d => d.year === year);
+    if (rows.length === 0) {
+      note = 'Solo hay datos comparables de cuota de herramientas para 2024 y 2025.';
+    }
+    chartData = rows
+      .map(d => ({ label: d.tool, value: d.share, group: 'tool' }))
+      .sort((a, b) => b.value - a.value);
+  } else if (metric === 'time_saving') {
+    // distribucion del tiempo ahorrado (timeSavingData: buckets + years{pct})
+    const ts = _explorerData.timeSavingData;
+    const yr = ts && ts.years ? (ts.years[year] || ts.years[String(year)]) : null;
+    if (!yr) {
+      note = 'Solo hay datos de tiempo ahorrado para 2024 y 2025.';
+    } else {
+      chartData = ts.buckets.map((b, i) => ({ label: b, value: yr.pct[i], group: 'time' }));
     }
   } else {
-    // Fallback: language for selected year
-    chartData = _explorerData.langData
+    // por defecto: lenguajes del año seleccionado (todos los años disponibles)
+    chartData = (_explorerData.langData || [])
       .filter(d => d.year === year)
       .map(d => ({ label: d.language, value: d.pct, group: 'lang' }))
       .sort((a, b) => b.value - a.value)
@@ -64,17 +52,24 @@ function updateExplorer() {
   }
 
   if (chartData.length === 0) {
-    _explorerContainer.innerHTML = '<p style="color:#8888aa;padding:1rem">No hay datos disponibles para esta combinación.</p>';
+    _explorerContainer.innerHTML =
+      `<p style="color:#8888aa;padding:1rem">${note || 'No hay datos para esta combinación.'}</p>`;
     return;
   }
 
   renderExplorerBar(_explorerContainer, chartData);
+  if (note) {
+    const p = document.createElement('p');
+    p.style.cssText = 'color:#8888aa;font-size:0.8rem;margin-top:0.5rem';
+    p.textContent = note;
+    _explorerContainer.appendChild(p);
+  }
 }
 
 function renderExplorerBar(container, data) {
   const width = container.clientWidth || 750;
   const height = Math.max(280, data.length * 34 + 60);
-  const margin = { top: 20, right: 80, bottom: 30, left: 200 };
+  const margin = { top: 20, right: 70, bottom: 30, left: 210 };
   const W = width - margin.left - margin.right;
   const H = height - margin.top - margin.bottom;
 
@@ -83,10 +78,9 @@ function renderExplorerBar(container, data) {
   const yScale = d3.scaleBand().domain(data.map(d => d.label)).range([0, H]).padding(0.2);
 
   const colorMap = {
-    'Male': '#7b7bff',
-    'Female': '#ff6b9d',
     'lang': '#4ecdc4',
-    'tool': '#ff9f43',
+    'tool': '#ff6b9d',
+    'time': '#4ade80',
   };
 
   const svg = d3.select(container).append('svg')
@@ -109,15 +103,14 @@ function renderExplorerBar(container, data) {
     .attr('height', yScale.bandwidth())
     .attr('width', d => xScale(d.value))
     .attr('fill', d => colorMap[d.group] || '#4ecdc4')
-    .attr('opacity', 0.8).attr('rx', 3)
+    .attr('opacity', 0.85).attr('rx', 3)
     .attr('tabindex', 0)
     .attr('aria-label', d => `${d.label}: ${d.value}%`);
 
-  // Value labels on bars
   g.selectAll('.val-lbl').data(data).join('text')
     .attr('class', 'val-lbl')
-    .attr('x', d => xScale(d.value) + 5)
+    .attr('x', d => xScale(d.value) + 6)
     .attr('y', d => yScale(d.label) + yScale.bandwidth() / 2 + 4)
     .attr('fill', '#cccccc').attr('font-size', '11px')
-    .text(d => d.value + '%');
+    .text(d => d.value.toFixed(1) + '%');
 }

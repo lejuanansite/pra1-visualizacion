@@ -12,9 +12,9 @@
   <nav id="nav-bar">
     <div class="nav-title">Dev × IA 2020–2025</div>
     <div class="nav-acts">
-      <button onclick="scrollToAct(1)">I. El Antes</button>
-      <button onclick="scrollToAct(2)">II. La Ruptura</button>
-      <button onclick="scrollToAct(3)">III. El Después</button>
+      <button onclick="scrollToAct(1)">I. La ola</button>
+      <button onclick="scrollToAct(2)">II. La ruptura</button>
+      <button onclick="scrollToAct(3)">III. El nuevo ecosistema</button>
     </div>
     <div id="progress-bar"></div>
   </nav>
@@ -22,20 +22,27 @@
   <!-- INTRO -->
   <section id="intro" class="intro-section">
     <h1>El Antes y el Después<br>de la IA Generativa</h1>
-    <p class="subtitle">Cómo ChatGPT transformó el ecosistema de desarrollo.<br>160.000 desarrolladores, 6 años de datos.</p>
+    <p class="subtitle">Qué cambió de verdad en el desarrollo de software cuando llegó ChatGPT —y qué no.<br>Las encuestas de JetBrains (~160.000 respuestas) y Stack Overflow, y 855 modelos de IA.</p>
     <div class="scroll-hint">↓ scroll para explorar</div>
   </section>
 
   <!-- ACTO I -->
   <section id="act-1" class="act-section">
-    <div class="act-label">Acto I — El punto de partida (2020–2022)</div>
+    <div class="act-label">Acto I — La ola de adopción (2023–2025)</div>
 
     <div class="scrolly-container" id="scrolly-1">
       <div class="scrolly-text" id="text-1">
+        <div class="step" data-step="1-1">
+          <h2>En tres años, casi todos subieron al tren</h2>
+          <p>OpenAI lanzó ChatGPT en noviembre de 2022. Para 2023 ya usaba IA el <strong style="color:#4ade80;">44%</strong> de los desarrolladores; en 2025, el <strong style="color:#4ade80;">78%</strong>. Pocas tecnologías se han adoptado tan rápido. Pero lo más revelador es la franja morada: los indecisos —"lo probaré pronto"— se desplomaron del 26% al 5%. La IA dejó de ser una promesa para volverse herramienta diaria.</p>
+          <p style="margin-top:0.8rem; color: #ff6b9d; font-size:0.9rem;">Aun así, un núcleo del 16% no la usa <em>ni piensa hacerlo</em>. No todo el mundo subió.</p>
+          <p class="chart-source">Stack Overflow Developer Survey 2023–2025 (AISelect) · n≥34.000/año</p>
+        </div>
         <div class="step" data-step="1-2">
-          <h2>Noviembre de 2022: todo cambia</h2>
-          <p>OpenAI lanzó ChatGPT. En semanas, millones de desarrolladores lo probaron para escribir código. En 2023 el 28% ya usaba IA. En 2024, el 68%. En dos años pasó de no existir como categoría a ser el tema central.</p>
-          <p style="margin-top:0.8rem; color: #ff6b9d; font-size:0.9rem;">¿Qué modelos causaron esta explosión? Lo vemos a continuación.</p>
+          <h2>¿Y quién la usa más? No quien crees</h2>
+          <p>El relato habitual de la "brecha digital" dice que la tecnología puntera arranca en el Norte rico y tarda en llegar al resto. Con la IA pasa <strong>justo al revés</strong>: los países que más la han adoptado son los emergentes y del Sur Global —<strong style="color:#4ade80;">Pakistán (92%), Ucrania (90%), India (87%), Brasil (86%)</strong>— mientras los ricos van por detrás: <strong style="color:#9d8cff;">Reino Unido (67%), EE. UU. y Francia (72%)</strong>.</p>
+          <p style="margin-top:0.8rem; color:#8888aa; font-size:0.85rem;">En conjunto, el Sur Global adopta IA un 85% frente al 74% del Norte rico. Donde el salario de un programador es más bajo, la IA aprieta más fuerte. (Guarda este dato: explica la trampa salarial que veremos luego.)</p>
+          <p class="chart-source">Stack Overflow Developer Survey 2025 (AISelect × Country) · 35 países, n≥200</p>
         </div>
       </div>
       <div class="scrolly-graphic sticky-graphic" id="graphic-1">
@@ -51,20 +58,26 @@
     <div class="scrolly-container" id="scrolly-2">
       <div class="scrolly-text" id="text-2">
         <div class="step" data-step="2-1">
-          <h2>855 modelos en 8 años</h2>
-          <p>Entre 2017 y 2022 se lanzaron unos 100 modelos LLM. Solo en 2023 aparecieron 149. En 2024, 254 más. Cada punto es un modelo: tamaño = parámetros, color = open-source (verde) o comercial (rosa).</p>
+          <h2>855 modelos, y una carrera de capacidad</h2>
+          <p>Entre 2017 y 2022 se lanzaron unos 100 modelos LLM. Solo en 2023 aparecieron 149; en 2024, 254 más. Y no solo fueron más: el MMLU —un test de conocimiento general— pasó de ~70 puntos en GPT-3 a más de 90. Cada punto es un modelo: tamaño = parámetros, color = open-source (verde) o comercial (rosa).</p>
+          <p style="margin-top:0.8rem; color:#ff6b9d; font-size:0.9rem;">Pero ¿adoptaron los devs los modelos más capaces, o los más accesibles?</p>
+          <p class="chart-source">LifeArchitect.ai Models Table (855 modelos LLM)</p>
         </div>
         <div class="step" data-step="2-2">
-          <h2>La carrera de benchmarks</h2>
-          <p>El MMLU — un test de conocimiento general — pasó de ~70 puntos en GPT-3 a más de 90 en los modelos actuales. Pero ¿adoptaron los devs los modelos más capaces o los más accesibles?</p>
+          <h2>¿Qué herramientas usaron? Y ningún rey dura para siempre</h2>
+          <p>En 2024, ChatGPT lo dominaba todo: el 80% de quienes usaban IA lo usaban. Un año después, ha perdido a uno de cada tres. Mientras tanto, <strong style="color:#4ade80;">Cursor se multiplicó por 6,5</strong> y Claude se duplicó. La herramienta líder de hoy puede no serlo mañana.</p>
+          <p style="margin-top:0.8rem; color:#8888aa; font-size:0.85rem;">Tabnine, pionera del autocompletado con IA, hoy es residual (0,6%).</p>
+          <p class="chart-source">JetBrains Developer Ecosystem Survey 2024–2025 · entre quienes usan IA</p>
         </div>
         <div class="step" data-step="2-3">
-          <h2>¿Qué herramientas usaron realmente?</h2>
-          <p>ChatGPT lideró la adopción con un 42% en 2025, seguido de GitHub Copilot (31%). Cursor, con solo dos años de vida, ya supera a Claude. El modelo más adoptado no es el mejor en benchmarks.</p>
-        </div>
-        <div class="step" data-step="2-4">
           <h2>¿Importa la calidad técnica del modelo?</h2>
           <p>Los modelos mejor valorados en benchmarks (MMLU) no siempre son los más adoptados. ChatGPT/GPT-4o lidera la adopción. DeepSeek tiene el MMLU más alto pero menor adopción. ¿Es la accesibilidad lo que decide?</p>
+          <p class="chart-source">Adopción JetBrains 2025 × MMLU de LifeArchitect.ai</p>
+        </div>
+        <div class="step" data-step="2-4">
+          <h2>¿Y el open-source? Aplastado</h2>
+          <p>Durante años se prometió que los modelos abiertos (Llama, Mistral, DeepSeek) democratizarían la IA. Pero entre quienes la usan para programar, el <strong style="color:#ff6b9d;">82% recurre a las cuatro grandes comerciales</strong> —ChatGPT, Copilot, Cursor, Claude— y solo el <strong style="color:#4ade80;">10% a herramientas open-source o self-hosted</strong>. El mercado está concentrado en SaaS propietario.</p>
+          <p class="chart-source">JetBrains Developer Ecosystem Survey 2025 · entre quienes usan IA</p>
         </div>
       </div>
       <div class="scrolly-graphic sticky-graphic" id="graphic-2">
@@ -80,20 +93,49 @@
     <div class="scrolly-container" id="scrolly-3">
       <div class="scrolly-text" id="text-3">
         <div class="step" data-step="3-1">
-          <h2>La adopción no es igual en todo el mundo</h2>
-          <p>En EEUU y Europa Occidental, más del 60% de los devs usan IA. El acceso a herramientas de pago y la disponibilidad de modelos varía enormemente según la región.</p>
+          <h2>La siguiente ola: agentes que actúan solos</h2>
+          <p>La IA que <em>sugiere</em> código ya es mayoritaria. Pero la siguiente frontera —agentes que ejecutan tareas por su cuenta— avanza mucho más despacio: solo el <strong style="color:#4ade80;">31%</strong> los usa, y el grupo más numeroso, el <strong style="color:#ff6b9d;">38%</strong>, no piensa adoptarlos. Una cosa es aceptar un copiloto; otra, soltar el volante.</p>
+          <p class="chart-source">Stack Overflow Developer Survey 2025 (AIAgents)</p>
         </div>
         <div class="step" data-step="3-2">
-          <h2>¿Democratiza la IA o amplifica las brechas?</h2>
-          <p>Las mujeres usan herramientas de IA en proporciones similares a los hombres, pero están menos representadas en roles de AI Engineering. En 2022-2023, el 36% de las desarrolladoras estaban en la categoría "low-paid" frente al 18% de los hombres.</p>
+          <h2>Se esperaba que Python arrasara. No pasó.</h2>
+          <p>Con la IA volcada en Python, cabía esperar que el lenguaje devorara al resto del stack. Pero los datos cuentan otra cosa: entre 2020 y 2025 el reparto de lenguajes apenas se movió. <strong>La IA no homogeneizó el stack</strong> — Python ya lideraba antes y sigue donde estaba; JavaScript, Java o C++ mantienen su terreno. La revolución fue en las herramientas, no en los lenguajes.</p>
+          <p class="chart-source">JetBrains Developer Ecosystem Survey 2020–2025</p>
         </div>
         <div class="step" data-step="3-3">
-          <h2>¿Python se lo come todo?</h2>
-          <p>La irrupción de la IA ha reforzado la posición de Python. ¿Está homogeneizando el stack tecnológico o los demás lenguajes mantienen su terreno?</p>
+          <h2>¿Para qué les sirve la IA, en realidad?</h2>
+          <p>La industria vende que la IA escribe <em>mejor</em> código. Pero cuando se pregunta a los devs qué beneficio notan, lo más citado es <strong style="color:#4ade80;">"menos tiempo buscando información"</strong> (74,6%). ¿Y "mejor calidad del código"? <strong style="color:#ff6b9d;">El último de la lista</strong> (34,6%). Valoran la IA como buscador, no como autor.</p>
+          <p class="chart-source">JetBrains Developer Ecosystem Survey 2025 · entre quienes usan IA</p>
         </div>
         <div class="step" data-step="3-4">
-          <h2>¿Cómo se siente el desarrollador?</h2>
-          <p>Los devs con más experiencia son más "esperanzados" ante la IA. Los junior son más "ansiosos". Solo el 15% cree que la IA reemplazará completamente a los desarrolladores.</p>
+          <h2>Y cada año rinde más</h2>
+          <p>No es solo que más gente use IA: rinde más con el tiempo. Entre quienes la usan, el grupo que ahorra <strong style="color:#4ade80;">8 horas o más a la semana se duplicó en un solo año</strong> (6,9% en 2024 → 16,4% en 2025). Mientras tanto, los que apenas ahorraban tiempo caen. La curva de aprendizaje colectiva avanza rápido.</p>
+          <p style="margin-top:0.8rem; color:#8888aa; font-size:0.85rem;">Una de las pocas series comparables año a año: misma pregunta, mismas categorías.</p>
+          <p class="chart-source">JetBrains Developer Ecosystem Survey 2024–2025 · entre quienes usan IA</p>
+        </div>
+        <div class="step" data-step="3-5">
+          <h2>¿Y se gana más usando IA? Cuidado con la trampa</h2>
+          <p>Si miras el dato global, quienes usan IA <strong style="color:#9d8cff;">ganan menos</strong> ($75k frente a $81k). Parece que la IA abarata. Pero es una <strong>trampa estadística</strong>: al desglosar por país, en <strong style="color:#4ade80;">todos</strong> —de EE. UU. a India— quienes usan IA ganan <em>más</em>. ¿Cómo? Porque los países de salarios altos (EE. UU.) adoptan menos IA, y los de salarios bajos, más. El promedio miente.</p>
+          <p style="margin-top:0.8rem; color:#8888aa; font-size:0.85rem;">Es la paradoja de Simpson: el agregado puede decir lo contrario que cada grupo por separado.</p>
+          <p class="chart-source">Stack Overflow Developer Survey 2025 (ConvertedCompYearly × Country × AISelect)</p>
+        </div>
+        <div class="step" data-step="3-6">
+          <h2>El miedo va al revés de lo que crees</h2>
+          <p>El relato dice que la IA viene a por los programadores. Solo el 11% cree que la IA los reemplazará del todo; un 60% lo descarta. Y quienes más temen por su empleo no son los veteranos: son <strong style="color:#ff6b9d;">los que aún no han programado profesionalmente</strong> (16%). Entre los devs con más de 16 años de experiencia, solo el 6% lo teme.</p>
+          <p style="margin-top:0.8rem; color:#8888aa; font-size:0.85rem;">Cuanta más experiencia tienes, menos miedo tienes a que la IA te sustituya.</p>
+          <p class="chart-source">JetBrains Developer Ecosystem Survey 2025</p>
+        </div>
+        <div class="step" data-step="3-7">
+          <h2>El problema: la IA vive en el "casi"</h2>
+          <p>¿Por qué se enfría el entusiasmo? La frustración nº1, citada por el <strong style="color:#ff6b9d;">66%</strong>, son las "soluciones casi correctas, pero no del todo". Ni acierta del todo (sería de fiar) ni falla del todo (la descartarías): vive en ese limbo del <em>casi</em> que obliga a revisarlo todo. De hecho, el 45% dice que <strong>depurar el código de la IA le lleva más tiempo</strong> que escribirlo.</p>
+          <p style="margin-top:0.8rem; color:#8888aa; font-size:0.85rem;">Y dos de cada tres devs la consideran de mediocre a muy mala en tareas complejas.</p>
+          <p class="chart-source">Stack Overflow Developer Survey 2025 (AIFrustration)</p>
+        </div>
+        <div class="step" data-step="3-8">
+          <h2>La paradoja final: la usan, pero ya no les gusta</h2>
+          <p>Aquí está la gran contradicción. Mientras el <strong style="color:#4ade80;">uso de la IA se dispara</strong> (44% → 78%), la opinión favorable <strong style="color:#ff6b9d;">cae en picado</strong> (76% → 60%), y los que desconfían de lo que produce ya son mayoría. Las dos líneas se separan: <strong>cuanto más la usamos, menos nos convence</strong>. La IA ganó la batalla del uso, pero no la del corazón.</p>
+          <p style="margin-top:0.8rem; color:#8888aa; font-size:0.85rem;">Encaja con lo que vimos antes: la valoran por ahorrar tiempo, no por la calidad de lo que escribe.</p>
+          <p class="chart-source">Stack Overflow Developer Survey 2023–2025 (AISelect × AISent) · n≥33.000/año</p>
         </div>
       </div>
       <div class="scrolly-graphic sticky-graphic" id="graphic-3">
@@ -104,19 +146,13 @@
     <!-- Zona de exploración libre -->
     <div id="explorer-section">
       <h2>Explora los datos</h2>
-      <p class="subtitle">Construye tu propia vista combinando métrica, segmento y año.</p>
+      <p class="subtitle">Elige una métrica y un año. Solo se muestran indicadores comparables y honestos (proporciones entre usuarios o rankings, no adopción poblacional).</p>
       <div id="explorer-controls">
         <label>Métrica:
           <select id="explorer-metric">
-            <option value="tool_adoption">Adopción de herramienta IA</option>
-            <option value="emotion">Emoción ante la IA</option>
-            <option value="language">Lenguaje de programación</option>
-          </select>
-        </label>
-        <label>Segmento:
-          <select id="explorer-segment">
-            <option value="gender">Género</option>
-            <option value="experience">Experiencia</option>
+            <option value="language">Popularidad de lenguajes</option>
+            <option value="tool_share">Cuota de herramienta IA (entre usuarios)</option>
+            <option value="time_saving">Tiempo ahorrado con IA</option>
           </select>
         </label>
         <label>Año:
@@ -128,13 +164,14 @@
         </label>
       </div>
       <div id="explorer-chart"></div>
+      <p class="chart-source" style="text-align:center;">JetBrains Developer Ecosystem Survey 2020–2025</p>
     </div>
   </section>
 
   <!-- FOOTER -->
   <footer>
-    <p>Datos: JetBrains Developer Ecosystem Survey 2020–2025 (~160.000 respuestas) · LifeArchitect.ai Models Table (855 modelos LLM)</p>
-    <p>Nota metodológica: encuesta de autoselección distribuida por canales JetBrains. Sesgo hacia usuarios de sus herramientas. Muestra ~92% masculina.</p>
+    <p>Datos: JetBrains Developer Ecosystem Survey 2020–2025 (~160.000 respuestas) · Stack Overflow Developer Survey 2023–2025 (adopción, sentimiento y agentes de IA; &gt;30.000 respuestas/año) · LifeArchitect.ai Models Table (855 modelos LLM)</p>
+    <p>Nota metodológica: ambas son encuestas de autoselección (sesgo hacia desarrolladores más activos y conectados; JetBrains, además, hacia usuarios de sus herramientas). En JetBrains la pregunta de herramientas de IA es condicional, así que <strong>no mide el % poblacional que usa IA</strong>: sus cifras se calculan <em>entre quienes usan IA</em> (cuotas de herramienta, beneficios, tiempo ahorrado). La <strong>adopción real</strong> (usa / planea / no usa) procede de Stack Overflow, cuya pregunta sí incluye la opción "no". Las preguntas cambian cada año, por lo que solo algunas series son comparables longitudinalmente.</p>
     <p>Juanan · Visualización de Datos · Máster en Ciencia de Datos UOC · 2026 · <a href="https://github.com/juanan/pra2-visualizacion">Código fuente</a></p>
   </footer>
 
@@ -142,15 +179,24 @@
   <script src="https://d3js.org/d3.v7.min.js"></script>
   <script src="https://unpkg.com/topojson-client@3"></script>
   <script src="https://unpkg.com/scrollama@3"></script>
-  <script src="js/charts/bump-chart.js"></script>
-  <script src="js/charts/small-multiples.js"></script>
+  <!-- Acto I -->
+  <script src="js/charts/so-adoption.js"></script>
+  <script src="js/charts/adoption-map.js"></script>
+  <!-- Acto II -->
   <script src="js/charts/llm-timeline.js"></script>
-  <script src="js/charts/area-adoption.js"></script>
+  <script src="js/charts/tool-slope.js"></script>
   <script src="js/charts/scatter-capability.js"></script>
-  <script src="js/charts/choropleth.js"></script>
-  <script src="js/charts/bar-gender.js"></script>
+  <script src="js/charts/oss-commercial.js"></script>
+  <!-- Acto III -->
+  <script src="js/charts/ai-agents.js"></script>
   <script src="js/charts/streamgraph.js"></script>
-  <script src="js/charts/diverging-bars.js"></script>
+  <script src="js/charts/ai-benefits.js"></script>
+  <script src="js/charts/time-saving.js"></script>
+  <script src="js/charts/salary-simpson.js"></script>
+  <script src="js/charts/fear-experience.js"></script>
+  <script src="js/charts/ai-frustration.js"></script>
+  <script src="js/charts/adoption-paradox.js"></script>
+  <!-- Explorador -->
   <script src="js/charts/explorer.js"></script>
   <script src="js/main.js"></script>
 </body>

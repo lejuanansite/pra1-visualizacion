@@ -50,10 +50,6 @@ function initStreamgraph(selector, data) {
 
     const g = svg.append('g').attr('transform', `translate(${margin.left},${margin.top})`);
 
-    // Title
-    g.append('text').attr('x', 0).attr('y', -20)
-      .attr('fill', '#4ecdc4').attr('font-size', '13px').attr('font-weight', '700')
-      .text('Popularidad de lenguajes 2020–2025');
 
     g.append('g').attr('transform', `translate(0,${H})`)
       .call(d3.axisBottom(xScale).ticks(6).tickFormat(d => Math.round(d)))

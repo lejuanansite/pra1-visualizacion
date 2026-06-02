@@ -64,7 +64,9 @@ body {
 .scrolly-container {
   display: flex; gap: 2rem; max-width: 1200px; margin: 0 auto; padding: 0 2rem;
 }
-.scrolly-text { width: 38%; }
+/* padding-bottom da al "riel" de texto mas recorrido que el grafico sticky,
+   evitando que el grafico se despegue y suba durante el ultimo paso */
+.scrolly-text { width: 38%; padding-bottom: 40vh; }
 .step {
   min-height: 80vh; display: flex; flex-direction: column;
   justify-content: center; padding: 2rem 0;
@@ -93,6 +95,13 @@ body {
   padding: 0.5rem 0.8rem; border-radius: 6px; font-size: 0.9rem;
 }
 #explorer-chart { min-height: 300px; }
+
+/* FUENTE POR GRÁFICO */
+.chart-source {
+  margin-top: 1rem; font-size: 0.72rem; color: #6c6c84;
+  letter-spacing: 0.02em; text-transform: uppercase;
+}
+.chart-source::before { content: "Fuente · "; opacity: 0.7; }
 
 /* FOOTER */
 footer {

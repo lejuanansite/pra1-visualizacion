@@ -26,3 +26,6 @@ node_modules/
 # Logs
 *.log
 *.tmp
+
+# Notas internas de exploración (no publicar: contienen hallazgos descartados)
+NOTAS-exploracion-datos.md
