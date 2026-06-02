@@ -56,4 +56,5 @@ scripts/     # pipeline de preprocesado en Python (01–05)
 
 ## Licencia
 
-MIT © 2026 Juanan
+- **Código** (sitio y scripts): [MIT](LICENSE) © 2026 Juanan.
+- **Datos** (`docs/data/`): son derivados de las fuentes de arriba y conservan **su** licencia, no la MIT. En particular, los datos de Stack Overflow están bajo [ODbL 1.0](https://opendatacommons.org/licenses/odbl/1-0/) (atribución + *share-alike*); JetBrains y LifeArchitect.ai, uso público con atribución.
